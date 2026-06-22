@@ -107,14 +107,6 @@ Pre-trained on ImageNet. Base layers frozen initially, then top 30 layers fine-t
 3. **Predict** — `model.predict()` returns class probabilities
 4. **Interpret** — `argmax` → class label + confidence %
 
----
-
-## How to Run
-
-1. Open `cat_dog_cnn.ipynb` in [Google Colab](https://colab.research.google.com/)
-2. Upload your dataset as a ZIP file when prompted (Cell 2)
-3. Run all cells in order
-4. For Transfer Learning, run the final cell (Cell 16)
 
 ---
 
@@ -129,8 +121,4 @@ cat-dog-cnn-classifier/
 
 ---
 
-## Author
 
-**Gshriv**
-B.Tech CSE — Amity School of Engineering & Technology, Amity University Noida
-Batch 2024–2028
