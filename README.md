@@ -123,13 +123,18 @@ The project extends beyond binary species classification into a two-stage breed 
 | Cat Breed Classifier | 86.86% |
 | Dog Breed Classifier | 88.13% |
 
-### Sample Output
-![Breed Classification Output](https://github.com/user-attachments/assets/YOUR_BREED_IMAGE_HASH)
 
 ---
 
 ## Future Scope
-The project can be extended in several directions. Grad-CAM visualisation can be added to generate heatmaps showing exactly which region of the image influenced the model's prediction, improving interpretability. The custom CNN baseline can be improved by training on the full 25,000 image Kaggle Cat vs Dog dataset. EfficientNetB3 can replace MobileNetV2 for better accuracy at similar compute cost. The two-stage pipeline can be deployed as a web app using FastAPI and hosted for free on Hugging Face Spaces, or converted to TensorFlow Lite for on-device mobile inference with no internet required. Further extensions include real-time breed detection from a live webcam feed using OpenCV, and multi-label classification to predict species, breed, and estimated age simultaneously from a single image.
+
+Grad-CAM visualisation to generate heatmaps showing which region of the image influenced the model's prediction, improving interpretability
+Train on the full 25,000 image Kaggle Cat vs Dog dataset to improve the custom CNN baseline
+Replace MobileNetV2 with EfficientNetB3 for better accuracy at similar compute cost
+Deploy the two-stage pipeline as a web app using FastAPI, hosted for free on Hugging Face Spaces
+Convert the model to TensorFlow Lite for on-device mobile inference with no internet required
+Real-time breed detection from a live webcam feed using OpenCV
+Multi-label classification to predict species, breed, and estimated age simultaneously from a single image
 
 ---
 
