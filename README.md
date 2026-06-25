@@ -120,8 +120,8 @@ The project extends beyond binary species classification into a two-stage breed 
 ### Breed Results
 | Model | Accuracy |
 |---|---|
-| Cat Breed Classifier | 88.06% |
-| Dog Breed Classifier | in progress |
+| Cat Breed Classifier | 86.86% |
+| Dog Breed Classifier | 88.13% |
 
 ### Sample Output
 ![Breed Classification Output](https://github.com/user-attachments/assets/YOUR_BREED_IMAGE_HASH)
@@ -148,3 +148,8 @@ cat-dog-cnn-classifier/
 <img width="1163" height="405" alt="image" src="https://github.com/user-attachments/assets/4ce88d1b-5294-49dd-8faa-94b75b4d0a5c" />
 <img width="530" height="581" alt="image" src="https://github.com/user-attachments/assets/a314c194-38fc-485f-96a3-05b8048ea469" />
 <img width="961" height="392" alt="image" src="https://github.com/user-attachments/assets/e4ce7e63-00ff-4e00-8883-82af12f3edd3" />
+
+<img width="346" height="407" alt="image" src="https://github.com/user-attachments/assets/a07276c3-c9b0-4880-8cf5-fc8a58eef33c" />
+<img width="353" height="403" alt="image" src="https://github.com/user-attachments/assets/0e620332-37ca-498d-8597-67a5a2dedc69" />
+
+
