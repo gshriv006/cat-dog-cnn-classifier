@@ -1,12 +1,17 @@
 # Cat vs Dog Image Classifier
 A deep learning project that classifies images as **Cat** or **Dog** using Convolutional Neural Networks (CNN) built with TensorFlow/Keras, with Transfer Learning via MobileNetV2.
+
 ---
+
 ## Objective
 - Build a CNN that classifies images as Cat or Dog
 - Train on augmented image data to improve generalisation
 - Evaluate using accuracy, loss curves, precision, recall, and F1-score
 - Apply Transfer Learning (MobileNetV2) to significantly boost accuracy on a small dataset
+- Extend the pipeline to identify the specific breed of the detected animal
+
 ---
+
 ## Dataset & Configuration
 | Parameter | Value |
 |---|---|
@@ -16,10 +21,14 @@ A deep learning project that classifies images as **Cat** or **Dog** using Convo
 | Learning Rate | 0.001 |
 | Train Split | 80% |
 | Test Split | 20% |
-Images are organised into cats/ and dogs/ subdirectories under train/ and test/. If the dataset is not pre-split, Cell 3b handles the split automatically.
+
+Images are organised into `cats/` and `dogs/` subdirectories under `train/` and `test/`. If the dataset is not pre-split, Cell 3b handles the split automatically.
+
 ---
+
 ## Data Augmentation
 Applied only to training data to prevent overfitting:
+
 | Technique | Value |
 |---|---|
 | Rotation | ±20° |
@@ -28,18 +37,27 @@ Applied only to training data to prevent overfitting:
 | Zoom | ±20% |
 | Horizontal Flip | Random |
 | Rescale | Pixels → [0, 1] |
-> Test/Validation data is **only rescaled** — no augmentation applied.
----
-## CNN Architecture
 
+> Test/Validation data is **only rescaled** — no augmentation applied.
+
+---
+
+## CNN Architecture
 Input (150×150×3)
-    → Block 1: Conv2D × 2 + MaxPool + BatchNorm  (32 filters)
-    → Block 2: Conv2D × 2 + MaxPool + BatchNorm  (64 filters)
-    → Block 3: Conv2D × 2 + MaxPool + BatchNorm  (128 filters)
-    → Flatten
-    → Dense 512 → Dropout 0.5
-    → Dense 256 → Dropout 0.3
-    → Dense 2 (Softmax)
+
+→ Block 1: Conv2D × 2 + MaxPool + BatchNorm  (32 filters)
+
+→ Block 2: Conv2D × 2 + MaxPool + BatchNorm  (64 filters)
+
+→ Block 3: Conv2D × 2 + MaxPool + BatchNorm  (128 filters)
+
+→ Flatten
+
+→ Dense 512 → Dropout 0.5
+
+→ Dense 256 → Dropout 0.3
+
+→ Dense 2 (Softmax)
 
 | Component | Detail |
 |---|---|
@@ -47,15 +65,20 @@ Input (150×150×3)
 | Output Activation | Softmax |
 | Regularisation | Dropout (50% + 30%) |
 | Normalisation | BatchNormalization after each pooling block |
+
 ---
+
 ## Smart Callbacks
 | Callback | What it does |
 |---|---|
-| EarlyStopping | Stops if val_loss doesn't improve for 5 epochs. Restores best weights. |
-| ReduceLROnPlateau | Halves learning rate if val_loss stalls for 3 epochs. Min LR: 1e-6 |
-| ModelCheckpoint | Saves best model weights whenever val_accuracy improves |
+| `EarlyStopping` | Stops if `val_loss` doesn't improve for 5 epochs. Restores best weights. |
+| `ReduceLROnPlateau` | Halves learning rate if `val_loss` stalls for 3 epochs. Min LR: 1e-6 |
+| `ModelCheckpoint` | Saves best model weights whenever `val_accuracy` improves |
+
 ---
+
 ## Results
+
 ### Custom CNN (Baseline)
 | Metric | Cat | Dog |
 |---|---|---|
@@ -63,28 +86,65 @@ Input (150×150×3)
 | Recall | 0.37 | 0.76 |
 | F1-Score | 0.46 | 0.63 |
 | **Test Accuracy** | **56.43%** | |
+
 ### Transfer Learning — MobileNetV2
 Pre-trained on ImageNet. Base layers frozen initially, then top 30 layers fine-tuned with a lower learning rate (1e-5).
+
 | Result | Value |
 |---|---|
 | **Test Accuracy** | **94.29%** |
-> Transfer Learning improved accuracy by ~38% over the custom CNN baseline.
----
-## Inference Pipeline
-1. **Load Image** — keras.utils.load_img(), resized to 150×150
-2. **Preprocess** — convert to array → divide by 255 → add batch dimension
-3. **Predict** — model.predict() returns class probabilities
-4. **Interpret** — argmax → class label + confidence %
----
-## Project Structure
 
+> Transfer Learning improved accuracy by ~38% over the custom CNN baseline.
+
+---
+
+## Inference Pipeline
+1. **Load Image** — `keras.utils.load_img()`, resized to 150×150
+2. **Preprocess** — convert to array → divide by 255 → add batch dimension
+3. **Predict** — `model.predict()` returns class probabilities
+4. **Interpret** — `argmax` → class label + confidence %
+
+---
+
+## Breed Classification (Two-Stage Pipeline)
+The project extends beyond binary species classification into a two-stage breed detection pipeline. Stage 1 uses the existing MobileNetV2 species classifier to identify whether the image contains a cat or dog. Stage 2 passes the image to a dedicated breed classifier — trained separately for cats and dogs using the Oxford-IIIT Pet Dataset (37 breeds, ~7000 images). Both breed models use MobileNetV2 pretrained on ImageNet, with the base frozen initially and the top layers fine-tuned. The cat breed classifier achieved 88.06% accuracy across 12 breeds.
+
+### Breed Dataset
+| Parameter | Value |
+|---|---|
+| Dataset | Oxford-IIIT Pet Dataset |
+| Total Breeds | 37 (25 dog, 12 cat) |
+| Image Size | 224 × 224 px |
+| Train/Val Split | 80% / 20% |
+
+### Breed Results
+| Model | Accuracy |
+|---|---|
+| Cat Breed Classifier | 88.06% |
+| Dog Breed Classifier | in progress |
+
+### Sample Output
+![Breed Classification Output](https://github.com/user-attachments/assets/YOUR_BREED_IMAGE_HASH)
+
+---
+
+## Future Scope
+The project can be extended in several directions. Grad-CAM visualisation can be added to generate heatmaps showing exactly which region of the image influenced the model's prediction, improving interpretability. The custom CNN baseline can be improved by training on the full 25,000 image Kaggle Cat vs Dog dataset. EfficientNetB3 can replace MobileNetV2 for better accuracy at similar compute cost. The two-stage pipeline can be deployed as a web app using FastAPI and hosted for free on Hugging Face Spaces, or converted to TensorFlow Lite for on-device mobile inference with no internet required. Further extensions include real-time breed detection from a live webcam feed using OpenCV, and multi-label classification to predict species, breed, and estimated age simultaneously from a single image.
+
+---
+
+## Project Structure
 cat-dog-cnn-classifier/
+
 │
+
 ├── cat_dog_cnn.ipynb       # Main notebook
+
 ├── README.md               # This file
 
 ---
-## Output 
+
+## Output
 <img width="1163" height="405" alt="image" src="https://github.com/user-attachments/assets/4ce88d1b-5294-49dd-8faa-94b75b4d0a5c" />
 <img width="530" height="581" alt="image" src="https://github.com/user-attachments/assets/a314c194-38fc-485f-96a3-05b8048ea469" />
 <img width="961" height="392" alt="image" src="https://github.com/user-attachments/assets/e4ce7e63-00ff-4e00-8883-82af12f3edd3" />
