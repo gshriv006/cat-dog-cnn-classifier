@@ -42,4 +42,7 @@ Applied only to training data to prevent overfitting:
 
 ---
 
-## CNN Architecture
+## Output
+<img width="1163" height="405" alt="image" src="https://github.com/user-attachments/assets/4ce88d1b-5294-49dd-8faa-94b75b4d0a5c" />
+<img width="530" height="581" alt="image" src="https://github.com/user-attachments/assets/a314c194-38fc-485f-96a3-05b8048ea469" />
+<img width="961" height="392" alt="image" src="https://github.com/user-attachments/assets/e4ce7e63-00ff-4e00-8883-82af12f3edd3" />
